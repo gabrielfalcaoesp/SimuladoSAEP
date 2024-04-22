@@ -1,0 +1,63 @@
+CREATE database SAEP_Novo;
+
+use SAEP_novo;
+
+CREATE TABLE Professores (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255),
+    escola VARCHAR(255),
+    data_contratacao DATE,
+    turmas VARCHAR(255),
+    Usuario_ID INT,
+    FOREIGN KEY (Usuario_ID) REFERENCES Usuarios(ID)
+);
+    
+INSERT INTO Usuarios(Email, Senha) 
+VALUES ("gabriel@teste.com.br", "senha1234");
+
+INSERT INTO Usuarios(Email, Senha) 
+VALUES ("marcus@teste.com.br", "senha0000");
+
+select * from Usuarios;
+    
+    
+CREATE TABLE Professores (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255),
+    escola VARCHAR(255),
+    data_contratacao DATE,
+    turmas VARCHAR(255)
+);
+
+INSERT INTO Professores (nome, escola, data_contratacao, Usuario_ID) 
+VALUES ('Gabriel Falcão', 'SENAI Morvan Figueiredo', '2020-05-10', 1);
+
+INSERT INTO Professores (nome, escola, data_contratacao, Usuario_ID) 
+VALUES ('Marcus Soares', 'SENAI Theobaldo de Nigris', '2020-05-10', 2);
+
+select * from professores;
+
+ALTER TABLE Professores 
+DROP COLUMN turmas;
+
+DELETE from Professores Where Usuario_Id = 1;
+
+Create Table Turmas(
+ID INT Primary Key Auto_Increment, 
+Nome Varchar (100), 
+Data_Criacao Date,
+Professor_ID INT, 
+FOREIGN KEY (Professor_ID) References Professores(ID)
+);
+
+INSERT INTO Turmas(nome, Data_Criacao, Professor_ID)
+VALUES  ("Google Cloud AI", "2020-10-11", 2), 
+("MIcrosoft DP-900", "2020-10-12", 2), 
+("Google Cloud Foundations", "2020-10-10", 3);
+
+select * from turmas;
+
+select Professores.Nome, turmas.nome, turmas.Data_Criacao, Professores.Usuario_ID 
+FROM Turmas 
+LEFT JOIN Professores ON Turmas.Professor_ID = Professores.ID 
+Where Turmas.Professor_ID = 2
