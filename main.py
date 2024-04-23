@@ -10,7 +10,7 @@ from datetime import date
 
 # Configuração do FastAPI
 app = FastAPI()
-templates = Jinja2Templates(directory="C:\\Users\\Aluno 25\\Desktop\\Prova\\SimuladoSAEP")
+templates = Jinja2Templates(directory="C:\\Users\\FALCAO.GABRIEL\\Desktop\\Gabriel\\SENAI\\SimuladoSAEP")
 
 
 # Conexão com o banco de dados
@@ -49,8 +49,24 @@ async def nova_turma(request: Request, nome: str = Form(...), data: date = Form(
     turmas = await Turmas.ExibirTurmas(professorID, conn)
     return templates.TemplateResponse("Turmas.html", {"request": request, "nome_usuario": nome_usuario, "professorID": professorID, "turmas": turmas})
 
-# @app.post("/api/DeletarTurma")
+@app.post("/api/DeletarTurma/")
+async def nova_turma(request: Request, turma_id: str = Form(...)):
+    turmaDeletada = await Turmas.ConfirmacaoDeletarTurma(turma_id, conn)
+    turma_nome = turmaDeletada['Nome']
+    return templates.TemplateResponse("DeletarTurma.html", {"request": request, "turma_id": turma_id, "turma_nome": turma_nome})
     #criar função assíncrona para ler a turma 
-    #chamar tela de confirmação 
+    #chamar tela de confirmação '
     #criar função 
     #criar função assíncrona para deletar a turma, chamando a url app.delete(/api/DeletarTurma/id)
+    
+@app.delete("/api/DeletarTurma/{id}")
+async def delete_item(item_id: int):
+    query = "DELETE FROM items WHERE id = %s"
+    cursor = conn.cursor()
+    values = (item_id,)
+    cursor.execute(query, values)
+    conn.commit()
+    if cursor.rowcount == 0:
+        raise HTTPException(status_code=404, detail="Item não encontrado")
+    return {"message": "Item deletado com sucesso"}
+
