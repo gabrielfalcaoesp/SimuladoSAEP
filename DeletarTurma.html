@@ -12,7 +12,7 @@
         <p>Deseja mesmo deletar a turma {{ turma_id }} - {{ turma_nome }}?</p>
         <div class="row">
             <div class="col">
-                <form action="/api/DeletarTurma/{{ turma_id }}" method="delete">
+                <form action="/api/DeletarTurma/{{ turma_id }}" method="post">
                     <button type="submit" class="btn btn-danger mr-2">Confirmar</button>
                 </form>
             </div>
