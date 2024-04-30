@@ -29,13 +29,14 @@
                     <td>{{ turma.nome }}</td>
                     <td>{{ turma.Data_Criacao }}</td>
                     <td>
-                        <form action="/api/visualizar" method="post" class="d-inline">
+                        <form action="/api/atividades" method="post" class="d-inline">
+                            <input type="hidden" name="turma_id" value="{{ turma.ID }}">
                             <button type="submit" class="btn btn-primary">Visualizar</button>
                         </form>
                         
                         <form action="/api/DeletarTurma" method="post" class="d-inline">
                             <input type="hidden" name="turma_id" value="{{ turma.ID }}">
-                            <button type="submit" class="btn btn-danger">Excluir (ID: {{ turma.ID }})</button>
+                            <button type="submit" class="btn btn-danger">Excluir</button>
                         </form>
                     </td>
                 </tr>

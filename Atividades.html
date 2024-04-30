@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turmas do Professor</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Atividades da turma - {{turma_id}}</h1>
+
+        <form action="/api/NovaAtividade" method="post" class="float-right">
+            <input type="hidden" name="turma_id" value="{{ turma_id }}">
+            <button type="submit" class="btn btn-outline-primary">Criar Atividade</button>
+        </form>
+
+        <br>
+
+        <table class="table mt-4">
+            <thead>
+                <tr>
+                    <th>Nome da atividade</th>
+                    <th>Data de Criação</th>
+                    <th>Data de Entrega</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for atividade in atividades %}
+                <tr>
+                    <td>{{ atividade.Nome }}</td>
+                    <td>{{ atividade.Data_Criacao }}</td>
+                    <td>{{ atividade.Data_Entrega }}</td>
+                    <td>
+                        
+                        <form class="d-inline">
+                            <button type="submit" class="btn btn-danger">Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

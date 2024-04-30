@@ -16,6 +16,35 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `atividades`
+--
+
+DROP TABLE IF EXISTS `atividades`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `atividades` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `Nome` varchar(100) DEFAULT NULL,
+  `Data_Criacao` date DEFAULT NULL,
+  `Data_Entrega` date DEFAULT NULL,
+  `Turma_ID` int DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `Turma_ID` (`Turma_ID`),
+  CONSTRAINT `atividades_ibfk_1` FOREIGN KEY (`Turma_ID`) REFERENCES `turmas` (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `atividades`
+--
+
+LOCK TABLES `atividades` WRITE;
+/*!40000 ALTER TABLE `atividades` DISABLE KEYS */;
+INSERT INTO `atividades` VALUES (1,'Atividade 01 - Primeira planilha','2024-04-30','2024-05-02',4),(2,'Atividade 01 - Primeira planilha','2024-04-30','2024-05-02',5),(3,'Atividade 01 - Primeira planilha','2024-04-30','2024-05-02',2),(4,'2º Planilha','2024-04-30','2024-05-07',5),(5,'3º planilha','2024-04-30','2024-05-07',5);
+/*!40000 ALTER TABLE `atividades` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `professores`
 --
 
@@ -59,7 +88,7 @@ CREATE TABLE `turmas` (
   PRIMARY KEY (`ID`),
   KEY `Professor_ID` (`Professor_ID`),
   CONSTRAINT `turmas_ibfk_1` FOREIGN KEY (`Professor_ID`) REFERENCES `professores` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -68,7 +97,7 @@ CREATE TABLE `turmas` (
 
 LOCK TABLES `turmas` WRITE;
 /*!40000 ALTER TABLE `turmas` DISABLE KEYS */;
-INSERT INTO `turmas` VALUES (1,'Google Cloud Foundations','2020-10-10',2),(2,'Google Cloud AI','2020-10-11',2),(3,'MIcrosoft DP-900','2020-10-12',2),(4,'Google Cloud Foundations','2020-10-10',3);
+INSERT INTO `turmas` VALUES (1,'Google Cloud Foundations','2020-10-10',2),(2,'Google Cloud AI','2020-10-11',2),(4,'Google Cloud Foundations','2020-10-10',3),(5,'Excel Básico','2024-04-30',2);
 /*!40000 ALTER TABLE `turmas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -106,4 +135,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-22 16:40:35
+-- Dump completed on 2024-04-30 11:10:09

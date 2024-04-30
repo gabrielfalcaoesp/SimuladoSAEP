@@ -6,6 +6,7 @@ from fastapi import Request
 import Turmas
 import Usuarios 
 import Professores
+import Atividades
 from datetime import date
 from fastapi.responses import RedirectResponse
 from typing import List
@@ -14,7 +15,7 @@ from urllib.parse import urlencode
 
 # Configuração do FastAPI
 app = FastAPI()
-templates = Jinja2Templates(directory="C:\\Users\\Aluno 25\\Desktop\\SimuladoSAEP")
+templates = Jinja2Templates(directory="C:\\Users\\FALCAO.GABRIEL\\Desktop\\Gabriel\\SENAI\\SimuladoSAEP")
 
 emailUsuario = ""
 senhaUsuario = ""
@@ -44,6 +45,37 @@ async def login(request: Request, email: str = Form(...), senha: str = Form(...)
             return RedirectResponse(redirect_url, status_code=status.HTTP_302_FOUND)
         else:
             raise HTTPException(status_code=401, detail="Credenciais inválidas")  
+        
+        
+        
+        
+        
+    
+@app.post("/api/atividades")
+async def visualizar(request: Request, turma_id: str = Form(...)):
+    atividades = await Atividades.ExibirAtividades(conn, turma_id)
+    return templates.TemplateResponse("Atividades.html", 
+                                      {"request": request,
+                                       "turma_id": turma_id,
+                                       "atividades": atividades})
+    
+  
+  
+@app.post("/api/NovaAtividade")
+async def nova_atividade(request: Request, turma_id: str = Form(...)):
+    return templates.TemplateResponse("CriarAtividade.html", {"request": request, "turma_id": turma_id})  
+
+@app.post("/api/CriarAtividade")
+async def criar_Atividade(request: Request, nome: str = Form(...), data_criacao: date = Form(...), data_entrega: date = Form(...), turma_id: str = Form(...)):
+    await Atividades.CriarAtividades(nome, data_criacao, data_entrega, turma_id, conn)
+    return "message: turma criada com sucesso"
+
+
+
+
+
+
+
 
 @app.get("/Turmas")
 async def visualizar_turmas(request: Request):
@@ -61,11 +93,6 @@ async def visualizar_turmas(request: Request):
                                        "nome_usuario": nome_usuario,
                                        "professorID": professorID,
                                        "turmas": turmas})
-    
-@app.post("/api/visualizar")
-async def visualizar():
-    return "message: Tela renderizada som sucesso"
-
 @app.post("/api/NovaTurma")
 async def nova_turma(request: Request):
     return templates.TemplateResponse("CriarTurma.html", {"request": request})
@@ -77,6 +104,7 @@ async def criar_turma(request: Request, nome: str = Form(...), data: date = Form
     turmas = await Turmas.ExibirTurmas(professorID, conn)
     redirect_url = f"/Turmas"
     return RedirectResponse(redirect_url, status_code=status.HTTP_302_FOUND)
+
 
 @app.post("/api/DeletarTurma/")
 async def deletar_turma(request: Request, turma_id: str = Form(...)):
