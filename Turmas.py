@@ -1,3 +1,5 @@
+import Professores
+
 async def ExibirTurmas(professorID, conn): 
     cursor = conn.cursor()
     cursor.execute("select Turmas.ID, Professores.Nome, turmas.nome, turmas.Data_Criacao, Professores.Usuario_ID "+
@@ -27,3 +29,4 @@ async def DeletarTurmaDefinitivo(turma_id, conn):
     cursor.execute("DELETE FROM Turmas WHERE ID = %s", (turma_id))
     conn.commit() 
     return True 
+
