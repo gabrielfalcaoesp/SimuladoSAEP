@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmação de Exclusão</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Confirmação de Exclusão</h1>
+        <p>Deseja mesmo deletar a atividade {{ atividade_id }} - {{ atividade_nome }}?</p>
+        <div class="row">
+            <div class="col">
+                <form action="/api/DeletarAtividade/{{ atividade_id }}" method="post">
+                    <button type="submit" class="btn btn-danger mr-2">Confirmar</button>
+                </form>
+            </div>
+            <div class="col">
+                <button type="button" class="btn btn-secondary" onclick="window.history.back()">Voltar</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

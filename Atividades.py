@@ -13,4 +13,15 @@ async def CriarAtividades(nome, data_criacao, data_entrega, turma_id, conn):
     conn.commit()  
     return {"message": "Turma inserida com sucesso"}
 
+async def ConfirmacaoDeletarAtividade(atividade_id, conn):
+    cursor = conn.cursor()
+    cursor.execute("select ID, Nome FROM atividades WHERE ID = %s", (atividade_id))
+    atividadeDeletada = cursor.fetchone()
+    cursor.close()
+    return atividadeDeletada
 
+async def DeletarAtividadeDefinitivo(atividade_id, conn):
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM Atividades WHERE ID = %s", (atividade_id))
+    conn.commit() 
+    return True 

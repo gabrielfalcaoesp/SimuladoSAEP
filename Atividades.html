@@ -34,7 +34,8 @@
                     <td>{{ atividade.Data_Entrega }}</td>
                     <td>
                         
-                        <form class="d-inline">
+                        <form action="/api/DeletarAtividade" method="post" class="d-inline">
+                            <input type="hidden" name="atividade_id" value="{{ atividade.ID }}">
                             <button type="submit" class="btn btn-danger">Excluir</button>
                         </form>
                     </td>

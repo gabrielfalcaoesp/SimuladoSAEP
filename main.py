@@ -15,10 +15,9 @@ from urllib.parse import urlencode
 
 # Configuração do FastAPI
 app = FastAPI()
-templates = Jinja2Templates(directory="C:\\Users\\FALCAO.GABRIEL\\Desktop\\Gabriel\\SENAI\\SimuladoSAEP")
+templates = Jinja2Templates(directory="C:\\Users\\sn1089002\\Desktop\\SimuladoSAEP\\SimuladoSAEP")
 
-emailUsuario = ""
-senhaUsuario = ""
+
 
 
 # Conexão com o banco de dados
@@ -32,13 +31,13 @@ conn = pymysql.connect(
 
 @app.post("/api/login")
 async def login(request: Request, email: str = Form(...), senha: str = Form(...)):
-    global emailUsuario, senhaUsuario
+    global emailUsuario
 
     with conn.cursor() as cursor:
         usuarioExiste = await Usuarios.VerificarUsuario(email, senha, conn)
         if usuarioExiste:
             emailUsuario = email
-            senhaUsuario = senha
+
 
             redirect_url = f"/Turmas"
 
@@ -51,6 +50,12 @@ async def login(request: Request, email: str = Form(...), senha: str = Form(...)
         
         
     
+
+
+
+
+
+
 @app.post("/api/atividades")
 async def visualizar(request: Request, turma_id: str = Form(...)):
     atividades = await Atividades.ExibirAtividades(conn, turma_id)
@@ -68,7 +73,25 @@ async def nova_atividade(request: Request, turma_id: str = Form(...)):
 @app.post("/api/CriarAtividade")
 async def criar_Atividade(request: Request, nome: str = Form(...), data_criacao: date = Form(...), data_entrega: date = Form(...), turma_id: str = Form(...)):
     await Atividades.CriarAtividades(nome, data_criacao, data_entrega, turma_id, conn)
-    return "message: turma criada com sucesso"
+    return RedirectResponse(url="/api/atividades")
+
+@app.post("/api/DeletarAtividade/")
+async def deletar_Atividade(request: Request, atividade_id: str = Form(...)):
+    atividadeDeletada = await Atividades.ConfirmacaoDeletarAtividade(atividade_id, conn)
+    atividade_nome = atividadeDeletada['Nome']
+    return templates.TemplateResponse("DeletarAtividade.html", {"request": request, "atividade_id": atividade_id, "atividade_nome": atividade_nome})
+    
+@app.post("/api/DeletarAtividade/{item_id}")
+async def delete_Atividade(request: Request, item_id: int):
+    deleteCompleto = await Atividades.DeletarAtividadeDefinitivo(item_id, conn)
+    if deleteCompleto == True:
+        redirect_url = f"/Turmas"
+        return RedirectResponse(redirect_url, status_code=status.HTTP_302_FOUND)
+    else:
+        return "message: Houve um erro"
+
+
+
 
 
 
@@ -79,7 +102,6 @@ async def criar_Atividade(request: Request, nome: str = Form(...), data_criacao:
 
 @app.get("/Turmas")
 async def visualizar_turmas(request: Request):
-    global emailUsuario
     nome_usuario, professorID = await Professores.IdentificarProfessor(emailUsuario, conn)
     if nome_usuario is None or professorID is None:
         raise HTTPException(status_code=400, detail="Parâmetros ausentes na URL")
@@ -100,8 +122,6 @@ async def nova_turma(request: Request):
 @app.post("/api/CriarTurma")
 async def criar_turma(request: Request, nome: str = Form(...), data: date = Form(...), professorID: int = Form(...)):
     await Turmas.CriarTurmas(nome, data, professorID, conn)
-    nome_usuario, professorID = await Professores.IdentificarProfessorID(professorID, conn)
-    turmas = await Turmas.ExibirTurmas(professorID, conn)
     redirect_url = f"/Turmas"
     return RedirectResponse(redirect_url, status_code=status.HTTP_302_FOUND)
 
