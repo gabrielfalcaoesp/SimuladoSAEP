@@ -26,6 +26,7 @@ async def ConfirmacaoDeletarTurma(turma_id, conn):
 
 async def DeletarTurmaDefinitivo(turma_id, conn):
     cursor = conn.cursor()
+    cursor.execute("DELETE FROM Atividades WHERE Turma_ID = %s", (turma_id))
     cursor.execute("DELETE FROM Turmas WHERE ID = %s", (turma_id))
     conn.commit() 
     return True 

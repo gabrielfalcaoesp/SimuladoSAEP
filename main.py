@@ -15,10 +15,8 @@ from urllib.parse import urlencode
 
 # Configuração do FastAPI
 app = FastAPI()
-templates = Jinja2Templates(directory="C:\\Users\\sn1089002\\Desktop\\SimuladoSAEP\\SimuladoSAEP")
-
-
-
+templates = Jinja2Templates(directory="templates")
+emailUsuario = ""
 
 # Conexão com o banco de dados
 conn = pymysql.connect(
@@ -28,6 +26,22 @@ conn = pymysql.connect(
     database="SAEP_novo",
     cursorclass=pymysql.cursors.DictCursor 
 )
+
+@app.get("/")
+async def redirect_to_home(request: Request):
+    return templates.TemplateResponse("Index.html", {"request": request})
+
+
+
+
+@app.post("/api/Index")
+async def index(request: Request):
+    global emailUsuario
+
+    emailUsuario = ""
+    return templates.TemplateResponse("Index.html", {"request": request})
+
+
 
 @app.post("/api/login")
 async def login(request: Request, email: str = Form(...), senha: str = Form(...)):
@@ -46,7 +60,7 @@ async def login(request: Request, email: str = Form(...), senha: str = Form(...)
             raise HTTPException(status_code=401, detail="Credenciais inválidas")  
         
         
-        
+
         
         
     
@@ -99,9 +113,14 @@ async def delete_Atividade(request: Request, item_id: int):
 
 
 
+@app.post("/Turmas")
+async def turmas(request: Request):
+    redirect_url = f"/Turmas"
+    return RedirectResponse(redirect_url, status_code=status.HTTP_302_FOUND)
 
 @app.get("/Turmas")
 async def visualizar_turmas(request: Request):
+    global emailUsuario
     nome_usuario, professorID = await Professores.IdentificarProfessor(emailUsuario, conn)
     if nome_usuario is None or professorID is None:
         raise HTTPException(status_code=400, detail="Parâmetros ausentes na URL")
@@ -140,3 +159,4 @@ async def delete_item(request: Request, item_id: int):
         return RedirectResponse(redirect_url, status_code=status.HTTP_302_FOUND)
     else:
         return "message: Houve um erro"
+    

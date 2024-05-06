@@ -1,0 +1,10 @@
+Viga|-598|2080|-228|2080|14|280|0|False|True|False
+Viga|-167|2080|-92|2080|14|280|0|False|False|False
+Viga|-78|2080|78|2080|14|280|0|False|False|False
+Viga|92|2080|167|2080|14|280|0|False|True|True
+Viga|228|2080|598|2080|14|280|0|False|False|False
+Viga|-612|1810|-507|1810|14|280|0|True|False|False
+Viga|-493|1810|-243|1810|14|280|0|False|False|False
+Viga|243|1810|493|1810|14|280|0|False|False|False
+Viga|507|1810|612|1810|14|280|0|False|False|False
+Viga|-507|1582.5|-428|1582.5|19|280|0|False|False|False
