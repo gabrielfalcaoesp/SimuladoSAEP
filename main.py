@@ -20,9 +20,9 @@ emailUsuario = ""
 
 # Conexão com o banco de dados
 conn = pymysql.connect(
-    host="localhost",
-    user="root",
-    password="1234",
+    host="server-saep.mysql.database.azure.com",
+    user="gabriel",
+    password="senai114@",
     database="SAEP_novo",
     cursorclass=pymysql.cursors.DictCursor 
 )
