@@ -41,3 +41,33 @@ Funcionamento:
 
 5. ATENÇÃO2! Os botões de excluir (inclusive "Excluir Turma" ou "Excluir Atividade") estão dando erro nos navegadores por questão de segurança do próprio navegador, isso se deve pelo fato do programa ser desenvolvido com http ao invés de https e não possui nenhum certificado ssl. Ainda não foi encontrado nenhuma alternativa para desabilitar essa opção dentro do navegador, mas caso queira testar a função de excluir, é possível fazer um clone do repositório localmente e então funcionará corretamente a função de excluir.
 ![alt text](image-4.png)
+
+
+
+
+
+
+###EXECUÇÃO LOCAL 
+1. Fazer o git clone do repositório
+
+2. Importar a database localizada no diretório com o nome "database" e importa-la para o MySQL
+
+3. Acessar a o arquivo main.py e verificar alterar o user e password de acordo com o seu banco de dados (linhas 23 e 24)
+   ![image](https://github.com/gabrielfalcaoesp/SimuladoSAEP/assets/127162444/c99614c6-2e34-4daf-9371-8ffe2d5f0b99)
+
+
+5. instalar bibliotecas:
+   FastAPI
+   pymysql
+   Jinja2
+   RedirectResponse
+   starlette.status
+
+6. No terminal do VSCode, acessar o diretório, por exemplo:
+   "cd C:\Users\Aluno\Desktop\SimuladoSAEP"
+
+7. Ainda no terminal, inicializar o servidor uvicorn com o comando:
+   uvicorn main:app --reload
+   ![image](https://github.com/gabrielfalcaoesp/SimuladoSAEP/assets/127162444/4d1aa686-355e-4bb2-b699-15e934b0f2e4)
+
+8. Enfim, é so abrir o http://127.0.0.1:8000 no seu navegador 
